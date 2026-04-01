@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.EnumMap;
+import java.util.Iterator;
 
 /**
  * Stock générique de canards.
@@ -17,13 +19,11 @@ import java.util.Map;
  * Les méthodes add(), getAll() et total() sont fournies.
  *
  * @param <T> type de canard stocké (doit étendre Duck)
- * @author Roussille Philippe <roussille@3il.fr>
+ * @author GOUDY Florian <goudyf@3il.fr>
  */
 public class Stock<T extends Duck> {
 
     private final List<T> items = new ArrayList<>();
-
-    // --- Méthodes fournies ---
 
     /** Ajoute un canard au stock. */
     public void add(T duck) {
@@ -42,53 +42,56 @@ public class Stock<T extends Duck> {
 
     // --- TODO ---
 
-    /**
-     * Retire exactement {@code count} canards du type {@code type} du stock
-     * et les retourne dans une liste.
-     *
-     * @param type  le type de canard à retirer
-     * @param count le nombre à retirer
-     * @return la liste des canards retirés
-     * @throws IllegalStateException si le stock ne contient pas assez de canards du type demandé
-     *
-     * Conseil : parcourez items en une seule passe.
-     * Attention à la signature de retour : elle doit conserver le type générique T.
-     */
     public List<T> remove(DuckType type, int count) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.remove()");
+        List<T> removed = new ArrayList<>(count);
+        Iterator<T> it = items.iterator();
+
+        while (it.hasNext() && removed.size() < count) {
+            T duck = it.next();
+            if (duck.getType() == type) {
+                removed.add(duck);
+                it.remove();
+            }
+        }
+
+        if (removed.size() != count) {
+            throw new IllegalStateException(
+                    "Stock insuffisant : demandé " + count + " " + type +
+                            ", disponible : " + removed.size()
+            );
+        }
+
+        return removed;
     }
 
-    /**
-     * Retourne le nombre de canards du type {@code type} présents dans le stock.
-     *
-     * @param type le type à compter
-     */
     public int count(DuckType type) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.count()");
+        int c = 0;
+        for (T duck : items) {
+            if (duck.getType() == type) c++;
+        }
+        return c;
     }
 
-    /**
-     * Retourne le nombre de canards défectueux dans le stock.
-     * Un canard est défectueux si isDefective() retourne true.
-     *
-     * Conseil : appelez isDefective() plutôt que de comparer le score manuellement.
-     */
     public int countDefective() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.countDefective()");
+        int c = 0;
+        for (T duck : items) {
+            if (duck.isDefective()) c++;
+        }
+        return c;
     }
 
-    /**
-     * Retourne une Map associant chaque DuckType au nombre de canards
-     * de ce type présents dans le stock.
-     *
-     * Conseil : construisez la map en une seule passe sur items.
-     * Tous les types doivent apparaître dans la map (avec 0 si absent).
-     */
     public Map<DuckType, Integer> countByType() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.countByType()");
+        Map<DuckType, Integer> map = new EnumMap<>(DuckType.class);
+
+        for (DuckType type : DuckType.values()) {
+            map.put(type, 0);
+        }
+
+        for (T duck : items) {
+            DuckType type = duck.getType();
+            map.put(type, map.get(type) + 1);
+        }
+
+        return map;
     }
 }
