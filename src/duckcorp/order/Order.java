@@ -12,7 +12,7 @@ import duckcorp.stock.Stock;
  *   - Implémentez equals() et hashCode() basés sur l'id
  *
  * Les getters et tick() sont fournis.
- * @author Roussille Philippe <roussille@3il.fr>
+ * @author GOUDY Florian <goudyf@3il.fr>
  */
 public class Order {
 
@@ -63,51 +63,29 @@ public class Order {
 
     // --- TODO ---
 
-    /**
-     * Retourne la valeur totale de la commande (pricePerUnit * quantity).
-     */
     public double getTotalValue() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.getTotalValue()");
+        return pricePerUnit * quantity;
     }
 
-    /**
-     * Retourne true si le stock contient suffisamment de canards du bon type
-     * pour honorer cette commande.
-     *
-     * Attention à la signature : le paramètre doit accepter tout Stock
-     * dont le type générique étend Duck, pas seulement Stock<Duck>.
-     */
     public boolean canBeFulfilled(Stock<? extends Duck> stock) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.canBeFulfilled()");
+        return stock.count(duckType) >= quantity;
     }
 
-    /**
-     * Marque la commande comme honorée (status = FULFILLED).
-     * Appelée par Factory.fulfillOrder() après retrait du stock.
-     */
     public void fulfill() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.fulfill()");
+        status = OrderStatus.FULFILLED;
     }
 
-    /**
-     * Deux commandes sont égales si et seulement si elles ont le même id.
-     */
     @Override
     public boolean equals(Object o) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.equals()");
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order other = (Order) o;
+        return this.id.equals(other.id);
     }
 
-    /**
-     * hashCode cohérent avec equals().
-     */
     @Override
     public int hashCode() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.hashCode()");
+        return id.hashCode();
     }
 
     // --- toString fourni ---
