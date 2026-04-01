@@ -51,46 +51,45 @@ public class ProductionStats {
         ordersExpired++;
     }
 
-    // --- TODO ---
+    // --- TODO (Bonus 1) ---
 
-    /**
-     * Enregistre la production d'une liste de canards.
-     * Pour chaque canard, incrémente son compteur dans produced.
-     *
-     * Utilisez getOrDefault() ou merge() plutôt qu'un null-check manuel.
-     * Réfléchissez à la signature du paramètre : doit-elle accepter
-     * uniquement une List<Duck>, ou quelque chose de plus général ?
-     */
+    @SuppressWarnings("unused")
     public void recordProduction(List<Duck> ducks) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : ProductionStats.recordProduction()");
+        for (Duck d : ducks) {
+            DuckType type = d.getType();
+            produced.put(type, produced.get(type) + 1);
+        }
     }
 
-    /**
-     * Enregistre la vente d'une commande honorée.
-     * Met à jour sold, totalRevenue et totalOrders.
-     */
     public void recordSale(Order order) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : ProductionStats.recordSale()");
+        DuckType type = order.getDuckType();
+        int qty = order.getQuantity();
+
+        sold.put(type, sold.get(type) + qty);
+
+        totalRevenue += order.getTotalValue();
+        totalOrders++;
     }
 
-    /**
-     * Retourne le nombre total de canards produits toutes catégories confondues.
-     * Parcourez produced.values() avec une boucle.
-     */
     public int getTotalProduced() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : ProductionStats.getTotalProduced()");
+        int total = 0;
+        for (int n : produced.values()) {
+            total += n;
+        }
+        return total;
     }
 
-    /**
-     * Retourne le DuckType le plus produit.
-     * Parcourez produced en une seule passe en conservant le maximum courant.
-     * Retourne null si rien n'a encore été produit.
-     */
     public DuckType getMostProduced() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : ProductionStats.getMostProduced()");
+        DuckType best = null;
+        int max = 0;
+
+        for (Map.Entry<DuckType, Integer> e : produced.entrySet()) {
+            if (e.getValue() > max) {
+                max = e.getValue();
+                best = e.getKey();
+            }
+        }
+
+        return best;
     }
 }
