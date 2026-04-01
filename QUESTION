@@ -1,0 +1,9 @@
+## Exercice 1 — Question
+Une méthode default dans une interface peut‑elle accéder aux champs privés de la classe qui l’implémente ?
+
+
+Non, une méthode default ne peut pas accéder directement aux champs privés d’une classe qui l’implémente.
+
+### Justification
+Une interface ne voit pas l’intérieur des classes : elle ne peut accéder qu’aux méthodes publiques définies dans l’interface.
+Dans ce projet, isDefective() (dans l’interface Qualifiable) doit utiliser getQualityScore() car elle ne peut pas lire directement le champ privé qualityScore de Duck.
