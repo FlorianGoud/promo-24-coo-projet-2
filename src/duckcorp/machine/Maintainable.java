@@ -5,7 +5,7 @@ package duckcorp.machine;
  *
  * TODO (Ex2) :
  *   - Implémentez needsMaintenance() et getConditionLabel() (méthodes default)
- * @author Roussille Philippe <roussille@3il.fr>
+ * @author GOUDY Florian <goudyf@3il.fr>
  */
 public interface Maintainable {
 
@@ -20,7 +20,7 @@ public interface Maintainable {
      * TODO : implémentez cette méthode default.
      */
     default boolean needsMaintenance() {
-        throw new UnsupportedOperationException("TODO : Maintainable.needsMaintenance()");
+        return getCondition() < 30;
     }
 
     /**
@@ -29,6 +29,11 @@ public interface Maintainable {
      * TODO : implémentez cette méthode default.
      */
     default String getConditionLabel() {
-        throw new UnsupportedOperationException("TODO : Maintainable.getConditionLabel()");
+        int c = getCondition();
+
+        if (c >= 80) return "Parfait";
+        if (c >= 50) return "Correct";
+        if (c >= 30) return "Usé";
+        return "Critique";
     }
 }
