@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * Les getters et le constructeur sont fournis.
  * La Map produced est protected pour permettre la sous-classe ConcurrentProductionStats.
- * @author Roussille Philippe <roussille@3il.fr>
+ * @author GOUDY Florian <goudyf@3il.fr>
  */
 public class ProductionStats {
 
